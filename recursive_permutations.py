@@ -1,5 +1,9 @@
 import unittest
 
+"""
+Write a recursive function for generating all permutations of an input string. Return them as a set.
+"""
+
 
 class Test(unittest.TestCase):
 
@@ -26,13 +30,13 @@ def permutations(s):
     if len(s) == 1:
         return [s]
 
-    p = []
+    perms = []
+
     for index in range(0, len(s)):
-        for permutation in permutations(s[:index] + s[index + 1:]):
-            p += [s[index] + permutation]
+        for p in permutations(s[:index] + s[index+1:]):
+            perms += [s[index] + p]
 
-    return p
-
+    return perms
 
 def permutations2(s):
 
