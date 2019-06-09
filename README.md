@@ -7,8 +7,8 @@ This repo contains tested solutions to riddles.
 
 - Try and describe the recurrence relation in words to make sure it is logically sound.
 
-- Consider solving bottom up (dynamic programming). Store the answer for the basic case, store it and use the stored
-answer to calculate the answer for a more complex case ("cake thief")
+- Consider solving bottom up (dynamic programming). Compute the answer for the basic case, store it and use the stored
+answer to calculate the answer for a more complex case ("cake thief", "smallest multiple")
 
 - Consider solving in stages - first solve a simplified problem, then use the solution for the simplified problem to
 solve the original.
