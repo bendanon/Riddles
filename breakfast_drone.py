@@ -5,6 +5,7 @@ Given the list of IDs, which contains many duplicate integers and one unique int
 find the unique integer.
 """
 
+
 def find_unique_integer(list):
     """
     Finds a unique integer in a list of duplicates
@@ -27,6 +28,7 @@ class TestFindUniqueInteger(unittest.TestCase):
     def test_different_order(self):
         list = [2, 1, 2, 3, 3]
         self.assertEqual(find_unique_integer(list), 1)
+
 
 if __name__ == '__main__':
     unittest.main()
