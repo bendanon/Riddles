@@ -3,13 +3,16 @@ import random
 import math
 
 """
-Given a singly-linked list of integers, find a repeat in O(nlog(n)) runtime and O(1) space
+Given a singly-linked a list of size n + 1 of integers of range 1...n, 
+find a repeat in O(nlog(n)) runtime and O(1) space
 """
 
 
 def find_repeat(lst):
     """
-    Find repeat, Optimize for space
+    Divides the space of 1...n to two ranges (x, y), counts list nums in
+    options 1 which are x <= num <= y, if pigeonhole principle holds,
+    recursively.
     :param lst: a list of size n + 1 of integers of range 1...n
     :return: an integer that appears twice
     """
@@ -25,12 +28,7 @@ def find_repeat(lst):
 
     while not found_duplicate:
 
-        nums_in_range = 0
-
-        for num in lst:
-            if num in range(current_option[0], current_option[1] + 1):
-                nums_in_range += 1
-
+        nums_in_range = len([num for num in lst if num in range(current_option[0], current_option[1] + 1)])
         size_of_range = current_option[1] - current_option[0] + 1
 
         # Means current_option[1] == current_option[0] and it is a duplicate
@@ -62,7 +60,7 @@ class Test(unittest.TestCase):
 
     def test_fuzz(self):
 
-        for _ in range(0,10):
+        for _ in range(0, 10):
             n = random.randint(3, 20)
             lst = []
             for i in range(0, n+1):
