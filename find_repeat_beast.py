@@ -1,6 +1,9 @@
 import unittest
 import random
-import math
+
+"""
+Given a singly-linked position list of integers, find a repeat in O(n) runtime
+"""
 
 
 class LinkedListNode:
@@ -10,17 +13,27 @@ class LinkedListNode:
     def __init__(self, value):
         self.value = value
 
+
 def create_position_list(lst):
 
-    nodeMap = {}
+    """
+    A position list enables us to find a duplicate value (it has two incoming pointers)
+    :param lst: the original list (ex. [2, 3, 1, 3])
+    :return: a list (value, next) in which next points to the value-1 position in the
+    input list. (3-1-2-3-1)
+    """
+    node_map = {}
 
-    for index in range(0, len(lst)):
-        nodeMap[lst[index]] = LinkedListNode(lst[index])
+    for item in lst:
+        node_map[item] = LinkedListNode(item)
 
-    for key, node in nodeMap.items():
-        node.next = nodeMap[lst[node.value - 1]]
+    for key, node in node_map.items():
+        node.next = node_map[lst[node.value - 1]]
 
-    return nodeMap[lst[-1]]
+    # The last node in the input list has no incoming edges in the position
+    # list, so its the first
+    return node_map[lst[-1]]
+
 
 def find_node_in_cycle(position_list_head):
 
@@ -35,6 +48,7 @@ def find_node_in_cycle(position_list_head):
 
     return fast_runner
 
+
 def find_cycle_length(node_in_cycle):
 
     cycle_length = 1
@@ -46,12 +60,13 @@ def find_cycle_length(node_in_cycle):
 
     return cycle_length
 
+
 def find_first_node_in_cycle(position_list_head, cycle_length):
 
     back_runner = position_list_head
     front_runner = position_list_head
 
-    for _ in range(0, cycle_length):
+    for _ in range(cycle_length):
         front_runner = front_runner.next
 
     while front_runner != back_runner:
@@ -59,6 +74,7 @@ def find_first_node_in_cycle(position_list_head, cycle_length):
         back_runner = back_runner.next
 
     return front_runner
+
 
 def find_repeat(lst):
     """
@@ -78,6 +94,7 @@ def find_repeat(lst):
 class Test(unittest.TestCase):
 
     def test_linked_list(self):
+
         a = LinkedListNode(3)
         b = LinkedListNode(4)
         c = LinkedListNode(5)
@@ -89,22 +106,23 @@ class Test(unittest.TestCase):
         self.assertEqual(a.next.value, 4)
         self.assertEqual(a.next.next.value, 5)
 
-
     def test_position_list(self):
-        input = [2, 3, 1, 3]
+
         expected_output = LinkedListNode(3)
         expected_output.next = LinkedListNode(1)
         expected_output.next.next = LinkedListNode(2)
         expected_output.next.next.next = LinkedListNode(3)
         expected_output.next.next.next.next = expected_output.next
 
-        output = create_position_list(input)
+        input_list = [2, 3, 1, 3]
+        output = create_position_list(input_list)
 
-        for _ in range(0, len(input)):
+        for _ in range(len(input_list)):
             self.assertEqual(expected_output.value, output.value)
             self.assertEqual(expected_output.next.value, output.next.value)
 
     def test_find_node_in_cycle(self):
+
         a = LinkedListNode(1)
         b = LinkedListNode(2)
         a.next = b
@@ -122,6 +140,10 @@ class Test(unittest.TestCase):
         self.assertTrue(node in [c, d, e])
 
     def test_find_cycle_length(self):
+
+        """
+        a-b-c-d-e-c, cycle is c-d-e of length 3
+        """
         a = LinkedListNode(1)
         b = LinkedListNode(2)
         a.next = b
@@ -133,16 +155,11 @@ class Test(unittest.TestCase):
         d.next = e
         e.next = c
 
-        cycle_length = find_cycle_length(c)
-        self.assertEqual(3, cycle_length)
+        # Check that find_cycle_length works from every node in the cycle
+        for node in [c, d, e]:
+            self.assertEqual(3, find_cycle_length(node))
 
-        cycle_length = find_cycle_length(d)
-        self.assertEqual(3, cycle_length)
-
-        cycle_length = find_cycle_length(e)
-        self.assertEqual(3, cycle_length)
-
-    def test_find_last_node_in_cycle(self):
+    def test_find_first_node_in_cycle(self):
         a = LinkedListNode(1)
         b = LinkedListNode(2)
         a.next = b
@@ -157,19 +174,18 @@ class Test(unittest.TestCase):
         first = find_first_node_in_cycle(a, 3)
         self.assertEqual(c, first)
 
-
-    def test(self):
+    def test_find_repeat(self):
         inputs = [([1, 2, 2, 3], 2), ([1, 2, 3, 3, 4], 3)]
 
         for i in inputs:
             self.assertEqual(find_repeat(i[0]), i[1])
 
-    def test_fuzz(self):
+    def test_find_repeat_fuzz(self):
 
-        for _ in range(0,10):
+        for _ in range(0, 10):
             n = random.randint(3, 20)
             lst = []
-            for i in range(0, n+1):
+            for i in range(n+1):
                 lst.append(random.randint(1, n))
 
             r = find_repeat(lst)

@@ -2,6 +2,7 @@ import unittest
 import random
 import math
 
+
 def find_repeat(lst):
     """
     Find repeat, Optimize for space
