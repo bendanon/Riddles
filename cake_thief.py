@@ -5,26 +5,31 @@ Write a function max_duffel_bag_value() that takes a list of cake type tuples an
 and returns the maximum monetary value the duffel bag can hold.
 """
 
+
 def max_duffel_bag_value(cake_tuples, capacity):
     """
+    :param: cake_tuples = [(weight, value),...] is the list of available cakes
+    :param: capacity = the capacity of the duffel bag
     Finds the max duffel bag value
-    :return:
+    :return: the maximum monetary value the duffel bag can hold.
     """
+
+    # The dynamic programming table, d[x] = the maximum monetary value with capacity x
     d = {}
 
     for t in cake_tuples:
         if t[0] == 0 and t[1] > 0:
             return float('inf')
 
-    for i in range(0, capacity+1):
+    for cap in range(0, capacity + 1):
 
         temp_max_value = 0
 
         for t in cake_tuples:
-            if t[0] <= i:
-                temp_max_value = max(temp_max_value, t[1] + d[i - t[0]])
+            if t[0] <= cap:
+                temp_max_value = max(temp_max_value, t[1] + d[cap - t[0]])
 
-        d[i] = temp_max_value
+        d[cap] = temp_max_value
 
     return d[capacity]
 
