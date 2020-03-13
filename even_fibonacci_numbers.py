@@ -13,6 +13,7 @@ find the sum of the even-valued terms.
 
 """
 
+
 def fib(upper_bound):
     """
     Generator for fibbonacci numbers
@@ -30,7 +31,7 @@ def solution(upper_bound):
     """
     Solution
     :param upper_bound:
-    :return:
+    :return: the sum of the even-valued terms.
     """
 
     return sum(n for n in fib(upper_bound) if n % 2 == 0)
