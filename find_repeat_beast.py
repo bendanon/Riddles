@@ -2,7 +2,7 @@ import unittest
 import random
 
 """
-Given a singly-linked position list of integers, find a repeat in O(n) runtime
+Given a singly-linked position list of integers, find a repeat in O(n) runtime and O(1) space
 """
 
 

@@ -2,6 +2,10 @@ import unittest
 import random
 import math
 
+"""
+Given a singly-linked list of integers, find a repeat in O(nlog(n)) runtime and O(1) space
+"""
+
 
 def find_repeat(lst):
     """
@@ -35,7 +39,7 @@ def find_repeat(lst):
             found_duplicate = True
             continue
 
-        # Means the duplicate is in this range
+        # Means the duplicate is in this range (pigeonhole principle)
         if nums_in_range > size_of_range:
             midpoint = math.floor((current_option[0] + current_option[1]) / 2)
             option_one = (current_option[0], midpoint)
