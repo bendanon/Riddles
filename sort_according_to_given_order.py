@@ -19,7 +19,7 @@ def key_func(order, word):
 
         # Translate the position of the char in the order to a char in the
         # key string
-        index =order.find(c)
+        index = order.find(c)
         if index == -1:
             raise Exception(c + " is not in the alphabet")
 
@@ -39,7 +39,7 @@ def solution(order, words):
     return sorted(words, key=lambda word: key_func(order, word))
 
 
-class TestFindUniqueInteger(unittest.TestCase):
+class TestSortAccordingToOrder(unittest.TestCase):
 
     def test_trivial(self):
         words = ["ben", "gal"]
