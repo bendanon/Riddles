@@ -2,8 +2,7 @@ import unittest
 import math
 
 """
-Given an array of non negative integers A, and a range (B, C),
-find the number of continuous subsequences in the array which have sum S in the range [B, C] or B <= S <= C
+Return the median value of the matrix
 """
 
 
