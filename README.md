@@ -15,7 +15,10 @@ solve the original.
 
 - A ^ A = 0 ("breakfast drone")
 
-- Consider binary search and pigeonhole principle ("find repeat")
+- When restricted to O(1) space and need to find a number in an array without 
+modifying it the trivial solution is O(n^2), the clever one is O(nlog(n)) by
+ doing binary search on the range and counting numbers within it that
+ satisfy something ("find repeat" (pigeonhole), "ksmallest")
 
 - Consider BFS to find shortest route when all edge weights are equal. ("mesh message")
 
