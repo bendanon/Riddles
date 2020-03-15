@@ -15,7 +15,7 @@ def solution(A):
     return lines_sorted[math.floor(len(lines) / 2)]
 
 
-class TestNumrange(unittest.TestCase):
+class TestMatrixMedian(unittest.TestCase):
 
     def test_trivial(self):
         A = [[1, 3, 5], [2, 6, 9], [3, 6, 9]]
