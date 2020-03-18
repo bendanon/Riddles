@@ -25,3 +25,6 @@ modifying it the trivial solution is O(n^2), the clever one is O(nlog(n)) by
 - Consider fast/slow runner for lists ("find repeat beast")
 
 - Consider versioning instead of actually manipulating data("RWC")
+
+- Memorize the simple math algos: sqrt(square_root), 
+modular exponentiation (power_func), primality test (largest_prime_factor)...
