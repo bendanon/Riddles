@@ -75,39 +75,75 @@ def solution(A):
     return max_sum
 
 
+# O(N), returning the max subset
+def bonus_solution(A):
+
+    max_element = float('-inf')
+    for i in range(len(A)):
+        max_element = max(max_element, A[i])
+
+    if max_element <= 0:
+        return [max_element]
+
+    sub_start = 0
+    max_subset = []
+    sub_sum = 0
+    max_sum = float('-inf')
+
+    for i in range(len(A)):
+        sub_sum += A[i]
+        if sub_sum > max_sum:
+            max_sum = sub_sum
+            max_subset = A[sub_start:i + 1]
+
+        if sub_sum < 0:
+            sub_sum = 0
+            sub_start = i + 1
+
+    return max_subset
+
+
 class TestMaxSumContSubarr(unittest.TestCase):
 
     def test_basic(self):
         A = [1, 2, 3, 4]
         self.assertEqual(solution(A), 10)
+        self.assertEqual(bonus_solution(A), [1, 2, 3, 4])
 
     def test_trivial(self):
         A = [0, 0, 0]
         self.assertEqual(solution(A), 0)
+        self.assertEqual(bonus_solution(A), [0])
 
     def test_basic_2(self):
         A = [1, 2, 2, -4, 1]
         self.assertEqual(solution(A), 5)
+        self.assertEqual(bonus_solution(A), [1, 2, 2])
 
     def test_basic_3(self):
         A = [-1, 0, 1, 2, -1, -4]
         self.assertEqual(solution(A), 3)
+        self.assertEqual(bonus_solution(A), [0, 1, 2])
 
     def test_example(self):
         A = [1, 2, 3, 4, -10]
         self.assertEqual(solution(A), 10)
+        self.assertEqual(bonus_solution(A), [1, 2, 3, 4])
 
     def test_example_2(self):
         A = [-2, 1, -3, 4, -1, 2, 1, -5, 4]
         self.assertEqual(solution(A), 6)
+        self.assertEqual(bonus_solution(A), [4, -1, 2, 1])
 
     def test_negative(self):
         A = [-500]
         self.assertEqual(solution(A), -500)
+        self.assertEqual(bonus_solution(A), [-500])
 
     def test_non_positive(self):
         A = [-500, 0]
         self.assertEqual(solution(A), 0)
+        self.assertEqual(bonus_solution(A), [0])
 
 
 if __name__ == '__main__':
