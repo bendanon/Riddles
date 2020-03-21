@@ -30,12 +30,7 @@ def solution(A, B, C):
         elif sub_sum < B:
             end += 1
 
-        elif sub_sum > C:
-            sub_sum = 0
-            start += 1
-            end = start
-
-        if end == len(A):
+        if sub_sum > C or end == len(A):
             start += 1
             sub_sum = 0
             end = start

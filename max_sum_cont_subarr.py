@@ -70,6 +70,8 @@ def solution(A):
     for i in range(len(A)):
         sub_sum += A[i]
         max_sum = max(max_sum, sub_sum)
+
+        # When the subset sum becomes negative, drop it
         sub_sum = max(sub_sum, 0)
 
     return max_sum
