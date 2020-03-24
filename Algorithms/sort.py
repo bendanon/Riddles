@@ -8,7 +8,7 @@ Sort an array of N integers
 """
 
 
-def insetion_sort(A):
+def insertion_sort(A):
     """
     A simple iterative algorithm which divides the array to two: sorted part
     and unsorted part. In every iteration it takes the first element of the
@@ -131,7 +131,7 @@ class TestSort(unittest.TestCase):
         self.assertEqual(expected_result, merge_sort(deepcopy(A)))
         self.assertEqual(expected_result, selection_sort(deepcopy(A)))
         self.assertEqual(expected_result, bubble_sort(deepcopy(A)))
-        self.assertEqual(expected_result, insetion_sort(deepcopy(A)))
+        self.assertEqual(expected_result, insertion_sort(deepcopy(A)))
 
     def test_no_change(self):
         A = [1, 2, 3, 4]
