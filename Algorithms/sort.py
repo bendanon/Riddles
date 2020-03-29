@@ -55,14 +55,9 @@ def _quick_sort(A, start, end):
     :return:
     """
 
-    if len(A) == 1:
-        return A
-
-    pivot = partition(A, start, end)
-
-    if pivot - 1 > start:
+    if start < end:
+        pivot = partition(A, start, end)
         _quick_sort(A, start, pivot - 1)
-    if pivot + 1 < end:
         _quick_sort(A, pivot + 1, end)
 
     return A
@@ -88,7 +83,7 @@ def insertion_sort(A):
     for i in range(1, len(A)):
         for j in range(0, i):
             if A[i] < A[j]:
-                A[j], A[i] = A[i], A[j]
+                swap(A, i, j)
 
     return A
 
