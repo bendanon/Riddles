@@ -8,6 +8,70 @@ Sort an array of N integers
 """
 
 
+def swap(A, i, j):
+    A[i], A[j] = A[j], A[i]
+
+
+def partition(A, start, end):
+    """
+    Chooses a pivot element (A[start]) and makes swaps such that A[start] is
+    in its sorted position within A[start:end]
+    :param A: the array
+    :param start: start index for partition
+    :param end: end index for partition
+    :return: Final position of the element originally chosen as pivot
+    """
+    pivot = start
+    index_first_larger = -1
+    for i in range(start + 1, end + 1):
+        if A[i] > A[pivot] and index_first_larger == -1:
+            index_first_larger = i
+
+        if A[i] < A[pivot] and index_first_larger != -1:
+            swap(A, i, index_first_larger)
+            index_first_larger += 1
+
+    if index_first_larger != -1:
+        final_position = index_first_larger - 1
+    else:
+        final_position = end
+
+    swap(A, pivot, final_position)
+
+    return final_position
+
+
+def _quick_sort(A, start, end):
+    """
+    A recursive algorithm which calls the subroutine "partition" which chooses
+    A pivot element (in our case the first element), and moves all smaller
+    elements before it and all larger elements after it. After "partition" ends
+    the pivot element is in its final sorted position. partition is O(N)
+    Time complexity: O(N^2) - if you choose the minimum element as pivot there
+    will be O(N) partitions. If the pivot element is the median, there will be
+    O(logN) partitions.
+    Space complexity: O(log(N)) for stack frames.
+    :param A:
+    :return:
+    """
+
+    if len(A) == 1:
+        return A
+
+    pivot = partition(A, start, end)
+
+    if pivot - 1 > start:
+        _quick_sort(A, start, pivot - 1)
+    if pivot + 1 < end:
+        _quick_sort(A, pivot + 1, end)
+
+    return A
+
+
+def quick_sort(A):
+    return _quick_sort(A, 0, len(A) - 1)
+
+
 def insertion_sort(A):
     """
     A simple iterative algorithm which divides the array to two: sorted part
@@ -17,8 +81,8 @@ def insertion_sort(A):
     correct position for insertion can be done in O(log(N)) since inserting
     into a sorted array BUT the shifting of elements in the sorted part costs O(N)
     Space complexity: O(1) - in place
-    :param A:
-    :return:
+    :param A: the unsorted array
+    :return: the sorted array
     """
 
     for i in range(1, len(A)):
@@ -31,6 +95,7 @@ def insertion_sort(A):
 
 def insertion_sort_list(linked_list):
     pass
+
 
 def bubble_sort(A):
     """
@@ -132,6 +197,55 @@ class TestSort(unittest.TestCase):
         self.assertEqual(expected_result, selection_sort(deepcopy(A)))
         self.assertEqual(expected_result, bubble_sort(deepcopy(A)))
         self.assertEqual(expected_result, insertion_sort(deepcopy(A)))
+        self.assertEqual(expected_result, quick_sort(deepcopy(A)))
+
+    def test_partition(self):
+        A = [4, 3, 2, 1]
+        start = 0
+        end = len(A) - 1
+
+        partition(A, start, end)
+        self.assertEqual([1, 3, 2, 4], A)
+
+        A = [3, 4, 2, 1]
+        self.assertEqual(2, partition(A, start, end))
+        self.assertEqual([1, 2, 3, 4], A)
+
+        A = [2, 4, 1, 3]
+        self.assertEqual(1, partition(A, start, end))
+        self.assertEqual([1, 2, 4, 3], A)
+
+        A = [1, 2, 3, 4]
+        self.assertEqual(0, partition(A, start, end))
+        self.assertEqual([1, 2, 3, 4], A)
+
+        A = [2, 1, 4, 3]
+        self.assertEqual(1, partition(A, start, end))
+        self.assertEqual([1, 2, 4, 3], A)
+
+        A = [5, 4, 3, 2, 1]
+        start = 1
+        end = 3
+        self.assertEqual(3, partition(A, start, end))
+        self.assertEqual([5, 2, 3, 4, 1], A)
+
+        A = [5, 2, 3, 1, 4]
+        start = 1
+        end = 3
+        self.assertEqual(2, partition(A, start, end))
+        self.assertEqual([5, 1, 2, 3, 4], A)
+
+        A = [5, 2, 3, 1, 4]
+        start = 1
+        end = 4
+        self.assertEqual(2, partition(A, start, end))
+        self.assertEqual([5, 1, 2, 3, 4], A)
+
+        A = [2, 5, 3, 1, 4]
+        start = 1
+        end = 4
+        self.assertEqual(4, partition(A, start, end))
+        self.assertEqual([2, 4, 3, 1, 5], A)
 
     def test_no_change(self):
         A = [1, 2, 3, 4]
