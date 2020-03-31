@@ -24,7 +24,7 @@ class ListNode:
 
         head = ListNode(lst[0])
         n = head
-        for i in lst:
+        for i in lst[1:]:
             n.next = ListNode(i)
             n = n.next
 
