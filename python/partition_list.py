@@ -1,5 +1,5 @@
 import unittest
-from Algorithms.list import ListNode
+from python.Algorithms.list import ListNode
 
 """
 Given a linked list and a value x, partition it such that all nodes less than x 

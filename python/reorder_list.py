@@ -1,6 +1,5 @@
 import unittest
-from Algorithms.list import ListNode
-import math
+from python.Algorithms.list import ListNode
 
 """
 Given a singly linked list

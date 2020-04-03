@@ -1,5 +1,5 @@
 import unittest
-from Algorithms.list import ListNode
+from python.Algorithms.list import ListNode
 
 """
 Reverse a linked list. Do it in-place and in one-pass.
@@ -14,7 +14,7 @@ def solution(A):
     current = prev.next
     prev.next = None
 
-    while current is not None:
+    while current:
         next = current.next
         current.next = prev
         prev = current
