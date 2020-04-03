@@ -1,11 +1,13 @@
 #include <gtest/gtest.h>
  
-int to_test(){
+
+int solution(){
     return 1;
 }
 
 TEST(TemplateSuite, TemplateTest) { 
-    ASSERT_EQ(1, to_test());
+    
+    ASSERT_EQ(1, solution());
 }
  
 int main(int argc, char **argv) {
