@@ -2,7 +2,7 @@
  
 
 int solution(){
-    return 1;
+    return 2;
 }
 
 TEST(TemplateSuite, TemplateTest) { 
