@@ -7,19 +7,16 @@ Reverse a linked list using recursion.
 
 
 def solution(A):
-    head, tail = _solution(A)
-    tail.next = None
-    return head
-
-
-def _solution(A):
 
     if not A or not A.next:
-        return A, A
+        return A
 
-    head, prev = _solution(A.next)
-    prev.next = A
-    return head, A
+    next_node = A.next
+    head = solution(A.next)
+    next_node.next = A
+    A.next = None
+
+    return head
 
 
 class TestTemplate(unittest.TestCase):
@@ -30,7 +27,7 @@ class TestTemplate(unittest.TestCase):
 
     def test_trivial(self):
         A = []
-        self.assertEqual([], solution(ListNode.from_list(A)))
+        self.assertEqual(None, solution(ListNode.from_list(A)))
 
     def test_trivial_1(self):
         A = [1]
