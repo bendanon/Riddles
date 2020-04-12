@@ -10,39 +10,31 @@ using namespace std;
     Entries should be sorted within themselves.
  **/
 
-void _combine(vector<vector<int>>& ans, int start, int end, int B){
+void _combine(vector<vector<int>>& ans, vector<int> prefix, int start, int end, int B){
 
-    if(B == 1){
-        for(int i = start; i <= end; i++){ ans.push_back( { i } ); }
+    if(B == 0){
+
+        //This means the length of prefix is B, so add it to the answer
+        ans.push_back(prefix);
         return;
     }
 
-    if(end - start == B - 1){
-        vector<int> comb;
-        for(int i = start; i <= end; i++) { comb.push_back(i); }
-        ans.push_back(std::move(comb));
+    if(start > end){
         return;
     }
 
-    _combine(ans, start + 1, end, B - 1);
-    for(auto& v : ans){
-
-        if(v.size() == B - 1){
-            auto pos = v.begin();
-            v.insert(pos, start);
-        }
-    }
-
-    _combine(ans, start + 1, end, B);
-
-    return;
+    //Add all combinations starting with prefix + start
+    prefix.push_back(start);    
+    _combine(ans, prefix, start + 1, end, B - 1);
+    
+    //Add all combinations with prefix without start
+    prefix.pop_back();
+    _combine(ans, prefix, start + 1, end, B);
 }
 
 vector<vector<int>> combine(int A, int B){
     vector<vector<int>> ans;
-    if (B <= A){
-        _combine(ans, 1, A, B);
-    }
+    _combine(ans, vector<int>{}, 1, A, B);
     return ans;
 }
 
