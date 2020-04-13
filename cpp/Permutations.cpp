@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 /**
@@ -8,47 +9,24 @@ using namespace std;
  * For the purpose of this problem, assume that all the numbers in the collection are unique.
 */
 
-vector<vector<int>> _solution(vector<vector<int>>& ans, vector<int>& A, int perm_size){
+void _solution(vector<vector<int>>& ans, vector<int>& A, size_t start){
 
-    //sol(A + {x}) = insert x in every position of sol(A)
-    if(perm_size <= 1){
-        ans = { A };
-        return { };
-    }
-    
-    if(A.size() == 1){
-        return { { A.back() } };
+    if(start == A.size() - 1){
+        ans.push_back(A);
+        return;
     }
 
-    int first = A.back();
-    A.pop_back();
-    auto t = _solution(ans, A, perm_size);
-    vector<vector<int>> t2;
-    for(auto v : t){
-        for(auto it = std::begin(v); it != std::end(v); ++it){
-            vector<int> toans = vector<int>(std::begin(v), it);
-            toans.push_back(first);
-            toans.insert(std::end(toans), it, std::end(v));
-            if(toans.size() == perm_size){
-                ans.push_back(toans);
-            } else{
-                t2.push_back(toans);
-            }
-        }
-        v.push_back(first);
-        if(v.size() == perm_size){
-            ans.push_back(v);
-        }else{
-            t2.push_back(v);
-        }
+    for(int i = start; i < A.size(); ++i){
+        swap(A[start], A[i]);
+        _solution(ans, A, start + 1);
+        swap(A[start], A[i]);
     }
 
-    return t2;
 }
 
 vector<vector<int>> solution(vector<int>& A){
     vector<vector<int>> ans;
-    _solution(ans, A, A.size());
+    _solution(ans, A, 0);
     return ans;
 }
 
@@ -61,7 +39,9 @@ TEST(PermutationsSuite, Example) {
                                                  { 2, 3, 1 },
                                                  { 3, 1, 2 }, 
                                                  { 3, 2, 1 }};
-    ASSERT_EQ(expected_output, solution(input));
+    auto output = solution(input);
+    sort(begin(output), end(output));
+    ASSERT_EQ(expected_output, output);
 }
 
 TEST(PermutationsSuite, Trivial_0) { 
