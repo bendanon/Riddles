@@ -12,28 +12,30 @@ using namespace std;
 
 int solution(const vector<int> &A, int B){
 
-    if(A.size() <= 1){
-        return 0;
-    }
-    
-    unordered_map<int, int> map { };
-    
-    int i = 0;
-    std::for_each(std::begin(A), std::end(A),
-    [&map, &i](int num) { 
-        map[num] = i;
-        ++i;
-    });
+    if(A.size() <= 1) return 0;
 
-    i = 0;
-    return std::any_of(std::begin(A), std::end(A), 
-    [&map, B, &i](int num) {
-        auto a = map.find(num + B);
-        auto b = map.find(num - B);
-        if((a != end(map)) && (a->second != i)) { return true; }
-        if((b != end(map)) && (b->second != i)) { return true; }
-        ++i;
-        return false;
+    unordered_map<int, int> map;
+    
+    for(int i = 0; i < A.size(); i++){ map[A[i]] = i; }
+
+    auto has_diff_k_with_another_element = [&map, B](int num, int index) 
+    {
+        /**
+         * A[i] - A[j] = k, i != j means one of the two holds:
+         * 1) A[i] = A[j] + k
+         * 2) A[j] = A[i] - k
+        */
+
+        auto a = map.find(num + B), b = map.find(num - B);
+        return (a != end(map) && a->second != index) ||
+               (b != end(map) && b->second != index); 
+
+    };
+
+    int i = 0;
+    return any_of(begin(A), end(A),[&](int num) 
+    {
+        return has_diff_k_with_another_element(num, i++);
     }) ? 1 : 0;
 }
 
@@ -83,8 +85,6 @@ TEST(Hashing_diffkII, Negative) {
     ASSERT_EQ(1, solution(input, 8)); //5 -(-3)
     ASSERT_EQ(1, solution(input, 1)); //-2 -(-3)
 }
-
-
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
