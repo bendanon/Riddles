@@ -15,23 +15,26 @@ int solution(const vector<int> &A, int B){
     if(A.size() <= 1){
         return 0;
     }
-
-    unordered_map<int, int> map { };
-    for(int i = 0; i < A.size(); ++i ){ map[A[i]] = i; }
-
-    for(int i = 0; i < A.size(); ++i){
-        auto a = map.find(A[i] + B); 
-        if((a != end(map)) && (a->second != i)){
-            return 1;
-        }
-        a = map.find(A[i] - B); 
-        if((a != end(map)) && (a->second != i)){
-            return 1;
-        }
-
-    }   
     
-    return 0;
+    unordered_map<int, int> map { };
+    
+    int i = 0;
+    std::for_each(std::begin(A), std::end(A),
+    [&map, &i](int num) { 
+        map[num] = i;
+        ++i;
+    });
+
+    i = 0;
+    return std::any_of(std::begin(A), std::end(A), 
+    [&map, B, &i](int num) {
+        auto a = map.find(num + B);
+        auto b = map.find(num - B);
+        if((a != end(map)) && (a->second != i)) { return true; }
+        if((b != end(map)) && (b->second != i)) { return true; }
+        ++i;
+        return false;
+    }) ? 1 : 0;
 }
 
 TEST(Hashing_diffkII, Example) { 
