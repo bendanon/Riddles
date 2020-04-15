@@ -19,38 +19,24 @@ struct RandomListNode {
 
 RandomListNode* solution(RandomListNode* A){
 
-    if(A == nullptr) return nullptr;
+    RandomListNode* head = A;
+    unordered_map<RandomListNode*, RandomListNode*> original_to_copy;
 
-    RandomListNode copy_head(0);
-    RandomListNode *curr = A, *copy_curr = &copy_head;
-    
-    unordered_map<RandomListNode*, RandomListNode*> curr_to_copy;
-    
-    while(curr != nullptr){
-
-        copy_curr->next = new RandomListNode(curr->label);
-        curr_to_copy[curr] = copy_curr->next;
-
-        copy_curr = copy_curr->next;
-        curr = curr->next;
+    //Allocate copy and set values    
+    while(head){
+        original_to_copy[head] = new RandomListNode(head->label);
+        head = head->next;
     }
 
-    curr = A;
-    copy_curr = copy_head.next;
-
-    //Set randoms
-    while(curr != nullptr){
-        if(curr->random == nullptr){
-            copy_curr->random = nullptr;
-        }
-        else{
-            copy_curr->random = curr_to_copy[curr->random];        
-        }
-        curr = curr->next;
-        copy_curr = copy_curr->next;
+    head = A;
+    
+    while(head){
+        original_to_copy[head]->next = original_to_copy[head->next];
+        original_to_copy[head]->random = original_to_copy[head->random];
+        head = head->next;
     }
 
-    return copy_head.next;
+    return original_to_copy[A];
 }
 
 
