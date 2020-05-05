@@ -63,14 +63,13 @@ int solution_2(vector<int>& A){
     int n = A.size();
     int max3 = A[n-1]*A[n-2]*A[n-3];
     int min2max = A[n-1]*A[0]*A[1];
-    return max(max3, min2max);
+    return std::max(max3, min2max);
 }
 
 TEST(MajorityElementSuite, example) { 
     vector<int> A {1, 2, 3, 4};    
     ASSERT_EQ(24, solution(A));
     //ASSERT_EQ(24, solution_2(A));
-
 }
 
 TEST(MajorityElementSuite, basic) { 
