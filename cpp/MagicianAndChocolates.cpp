@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <queue>
 
 using namespace std;
 
@@ -19,21 +20,19 @@ int solution(int A, vector<int>& B){
     unsigned int ret = 0;
     int mod = pow(10, 9) + 7;
 
-    make_heap(begin(B), end(B));
+    priority_queue<int> q(begin(B), end(B));
 
     for(int t = 0; t < A; ++t){
         
         //Get the max bag
-        int max_bag = B.front();
+        int max_bag = q.top();
         ret += max_bag;
         ret %= mod;
 
-        pop_heap(begin(B), end(B));
-        B.pop_back();
+        q.pop();
 
         //Push max_bag / 2 back to the heap
-        B.push_back(max_bag / 2);
-        push_heap(begin(B), end(B));
+        q.push(max_bag / 2);
     }
     
     return ret;
