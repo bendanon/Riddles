@@ -65,21 +65,18 @@ TreeNode* _solution(ListNode* start, ListNode* end){
 
     int len = split_list(start, end, &left, &right);
 
-    if(len == 3){
-        root = new TreeNode(right->val);
-        root->left = new TreeNode(left->val);
-        root->right = new TreeNode(right->next->val);
-    }else if(len == 2){
-        root = new TreeNode(right->val);
-        root->left = new TreeNode(left->val);
-    } else if(len == 1){
-        root = new TreeNode(left->val);
-    } else {
-        root = new TreeNode(right->val);
-        root->left = _solution(left, right);
-        root->right = _solution(right->next, end);
+    if(len == 0){
+        return nullptr;
     }
 
+    if(len == 1){
+        return new TreeNode(left->val);
+    }
+
+    root = new TreeNode(right->val);
+    root->left = _solution(left, right);
+    root->right = _solution(right->next, end);
+    
     return root;
 }
 
@@ -105,6 +102,11 @@ TEST(TreeToBstSuite, trivial_1) {
     TreeNode expected[1] { 1 };
 
     ASSERT_TRUE(compare_tree_by_val(&expected[0], solution(&nodes[0]) ));
+}
+
+TEST(TreeToBstSuite, trivial_0) { 
+
+    ASSERT_TRUE(compare_tree_by_val(nullptr, solution(nullptr) ));
 }
 
 TEST(TreeToBstSuite, trivial_2) { 
